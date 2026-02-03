@@ -27,16 +27,20 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // Import routes
-const authRoutes = require('./routes/authmiddleware');
+const authRoutes = require('./routes/auth');
 const alertRoutes = require('./routes/alerts');
 const userRoutes = require('./routes/users');
 const securityRoutes = require('./routes/security');
+const authMiddleware = require('./routes/authmiddleware');
+
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/security', securityRoutes);
+app.use('/api/secure-route', authMiddleware, secureRouteHandler);
+
 
 // Health check
 app.get('/health', (req, res) => {
