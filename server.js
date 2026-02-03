@@ -27,11 +27,12 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // Import routes
-const authRoutes = require('./routes/auth.js');
-const alertRoutes = require('./routes/alerts.js');
-const userRoutes = require('./routes/users.js');
-const securityRoutes = require('./routes/security.js');
-const authMiddleware = require('./routes/authmiddleware.js');
+const authRoutes = require('./auth.js');
+const alertRoutes = require('./alert.js');
+const userRoutes = require('./users.js');
+const securityRoutes = require('./security.js');
+const authMiddleware = require('./authmiddleware.js');
+
 
 
 // Routes
