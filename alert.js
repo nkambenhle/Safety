@@ -3,7 +3,7 @@ const router = express.Router();
 const { createClient } = require('@supabase/supabase-js');
 const multer = require('multer');
 const { Expo } = require('expo-server-sdk');
-const authMiddleware = require('../middleware/auth');
+const authMiddleware = require('../middleware/auth.js');
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
