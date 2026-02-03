@@ -31,7 +31,6 @@ const authRoutes = require('./auth.js');
 const alertRoutes = require('./alert.js');
 const userRoutes = require('./users.js');
 const securityRoutes = require('./security.js');
-const authMiddleware = require('./authmiddleware.js');
 
 
 
@@ -40,7 +39,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/security', securityRoutes);
-app.use('/api/secure-route', authMiddleware, secureRouteHandler);
 
 
 // Health check
