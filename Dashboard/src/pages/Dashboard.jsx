@@ -3,12 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { getAlerts, updateAlertStatus, toggleAvailability, logout } from '../services/api';
 import './Dashboard.css';
+import 'leaflet/dist/leaflet.css';
+
+// Fix for default marker icon in react-leaflet
+import L from 'leaflet';
+import icon from 'leaflet/dist/images/marker-icon.png';
+import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
+let DefaultIcon = L.icon({
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41]
+});
+
+L.Marker.prototype.options.icon = DefaultIcon;
 
 export default function Dashboard({ onLogout }) {
   const navigate = useNavigate();
   const [alerts, setAlerts] = useState([]);
   const [selectedAlert, setSelectedAlert] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [filter, setFilter] = useState('pending');
   const [isAvailable, setIsAvailable] = useState(true);
   const [companyName, setCompanyName] = useState('');
@@ -33,6 +49,7 @@ export default function Dashboard({ onLogout }) {
 
   const loadAlerts = async () => {
     try {
+      setError(null);
       const data = await getAlerts(filter);
       setAlerts(data);
       
@@ -42,6 +59,7 @@ export default function Dashboard({ onLogout }) {
       }
     } catch (error) {
       console.error('Error loading alerts:', error);
+      setError('Failed to load alerts. Please check your connection.');
     } finally {
       setLoading(false);
     }
@@ -110,6 +128,23 @@ export default function Dashboard({ onLogout }) {
       <div className="loading-container">
         <div className="spinner"></div>
         <p>Loading dashboard...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="loading-container">
+        <div className="error-box">
+          <h2>⚠️ Error</h2>
+          <p>{error}</p>
+          <button className="btn btn-primary" onClick={() => window.location.reload()}>
+            Reload Page
+          </button>
+          <button className="btn btn-secondary" onClick={handleLogout} style={{ marginTop: '10px' }}>
+            Logout
+          </button>
+        </div>
       </div>
     );
   }
