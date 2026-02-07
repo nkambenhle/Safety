@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
-import DebugDashboard from './pages/DebugDashboard';
+import Debugdashboard from './pages/Debugdashboard';
 import './App.css';
 
 function App() {
